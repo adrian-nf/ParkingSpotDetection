@@ -1,6 +1,6 @@
 # ParkingSpotDetection
 
-# Parking Spot and Vehicle Occupancy Detection
+## Project Description
 
 **A project to detect parking spots and vehicle occupancy using YOLO.**  
 The system identifies parking spots, detects vehicles, and determines whether a parking spot is occupied or available. Occupancy is determined by calculating the centroid of the vehicle and checking if it falls within the boundaries of the parking spot. If the vehicle's centroid is inside the parking spot, it is considered occupied.
