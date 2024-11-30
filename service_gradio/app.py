@@ -1,6 +1,11 @@
 import gradio as gr
 import requests
 import os
+from tempfile import NamedTemporaryFile
+import zipfile
+from io import BytesIO
+import shutil
+import json
 
 def stream_object_detection(video, conf_threshold_parkings, conf_threshold_vehicles):
     if video is None:
@@ -9,25 +14,34 @@ def stream_object_detection(video, conf_threshold_parkings, conf_threshold_vehic
     # URL del servicio de modelos
     url = "http://model_service:8000/process"
 
-    # Leer el video y enviarlo al servidor
+    # Leer el archivo de video y enviarlo al servidor
     with open(video, "rb") as f:
         files = {'video': (os.path.basename(video), f, 'video/mp4')}
         data = {
             'conf_threshold_parkings': str(conf_threshold_parkings),
             'conf_threshold_vehicles': str(conf_threshold_vehicles)
         }
-        response = requests.post(url, files=files, data=data)
+        response = requests.post(url, files=files, data=data, stream=True)
 
     if response.status_code == 200:
-        result = response.json()
-        output_video_path = result['output_video']
-        txt_yolo = result['txt_yolo']
-        json_yolo = result['json_yolo']
+        # Leer el contenido del archivo ZIP en memoria
+        zip_content = BytesIO(response.content)
+        with zipfile.ZipFile(zip_content) as zip_file:
+            # Extraer el video procesado
+            with zip_file.open("processed_video.mp4") as video_file:
+                with NamedTemporaryFile(delete=False, suffix=".mp4") as temp_video:
+                    shutil.copyfileobj(video_file, temp_video)
+                    processed_video_path = temp_video.name
 
-        # Descargar el video procesado
-        processed_video = output_video_path
+            # Extraer txt_yolo
+            with zip_file.open("txt_yolo.txt") as txt_file:
+                txt_yolo = txt_file.read().decode('utf-8')
 
-        return processed_video, txt_yolo, json_yolo
+            # Extraer json_yolo
+            with zip_file.open("json_yolo.json") as json_file:
+                json_yolo = json.load(json_file)
+
+        return processed_video_path, txt_yolo, json_yolo
     else:
         return None, "Error processing video", None
 
