@@ -1,0 +1,7 @@
+path: '../../data/WorldYolo' # This path depends on what path you have in Ultralytics/settings.json under "datasets_dir": 
+train: 'train/images'  # Path to training images
+val: 'val/images'      # Path to validation images
+
+# Number of classes and class names
+nc: 1
+names: ['parking_spot']  # In this case it's just 1 class but if you have 2 or more it would be like this [class1, class2, class3, etc]

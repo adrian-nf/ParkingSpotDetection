@@ -1,0 +1,4 @@
+- **yolo11n-detect-parking.pt**: Model to detect individual parking spots.
+- **yolo11n-parking.pt**: Model to detect parking spots in groups with two labels: *nothing* and *parking_spot*. It has only been trained with the *parking_spot* label.
+- **yolo11n-parking2.pt**: Model similar to *yolo11n-parking.pt*, but with only the *parking_spot* label.
+- **yolov8n-visdrone.pt**: Model to detect objects from an aerial view.
