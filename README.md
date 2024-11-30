@@ -1,7 +1,5 @@
 # ParkingSpotDetection
 
-## Project Description
-
 **A project to detect parking spots and vehicle occupancy using YOLO.**  
 The system identifies parking spots, detects vehicles, and determines whether a parking spot is occupied or available. Occupancy is determined by calculating the centroid of the vehicle and checking if it falls within the boundaries of the parking spot. If the vehicle's centroid is inside the parking spot, it is considered occupied.
 
@@ -15,7 +13,7 @@ This project utilizes fine-tuned YOLO models for object detection, specifically 
 
 ## Models
 - **yolo11n-detect-parking.pt**: Model to detect individual parking spots. This model has been trained by us. The details of where we obtained the datasets will be provided below.
-- **yolov8n-visdrone.pt**: Model to detect objects from an aerial view. This model was not trained by us. [Download yolov8n-visdrone.pt](https://huggingface.co/mshamrai/yolov8n-visdrone)
+- **yolov8n-visdrone.pt**: Model to detect vehicles from an aerial view. This model was not trained by us. [Download yolov8n-visdrone.pt](https://huggingface.co/mshamrai/yolov8n-visdrone)
 
 
 ## Datasets
