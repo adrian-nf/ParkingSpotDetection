@@ -3,7 +3,7 @@ version: '3.8'
 services:
   model_service:
     build:
-      context: ./service_model
+      context: service_model
       dockerfile: Dockerfile
     container_name: model_service
     ports:
@@ -13,7 +13,7 @@ services:
 
   gradio_service:
     build:
-      context: ./service_gradio
+      context: service_gradio
       dockerfile: Dockerfile
     container_name: gradio_service
     ports:
