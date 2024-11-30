@@ -25,12 +25,13 @@ async def process(
     detector = ParkingSpotDetection(
         parking_model_path="models/yolo11n-detect-parking.pt",
         vehicle_model_path="models/yolov8n-visdrone.pt",
-        confidence_threshold=conf_threshold_parkings
+        parkings_confidence_threshold=conf_threshold_parkings,
+        vehicles_confidence_threshold=conf_threshold_vehicles
     )
 
     # Procesar el video
     output_video_path, txt_yolo, json_yolo = detector.process_video_gradio(
-        video_filename, 'ffmpeg', conf_threshold_vehicles
+        video_filename, 'ffmpeg'
     )
 
     # Verificar que el video fue procesado correctamente
