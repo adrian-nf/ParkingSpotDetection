@@ -35,6 +35,11 @@ To build and start the services (model service and Gradio service), follow these
    ```bash
    docker-compose up --build
    ```
+2. **Once the services are running, open your browser and navigate to the following URL:**
+
+   [http://localhost:7860](http://localhost:7860)
+
+   This will open the Gradio user interface.
 
 ## Results
 
