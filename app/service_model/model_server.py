@@ -16,12 +16,12 @@ async def process(
         conf_threshold_parkings: float = Form(0.8),
         conf_threshold_vehicles: float = Form(0.5)
 ):
-    # Guardar el video subido
+    # Save the uploaded video to disk
     video_filename = "input_video.mp4"
     with open(video_filename, "wb") as buffer:
         shutil.copyfileobj(video.file, buffer)
 
-    # Crear una instancia de la clase de detección
+    # Initialize the ParkingSpotDetection class with the appropriate model paths and thresholds
     detector = ParkingSpotDetection(
         parking_model_path="models/yolo11n-detect-parking.pt",
         vehicle_model_path="models/yolov8n-visdrone.pt",
@@ -29,27 +29,27 @@ async def process(
         vehicles_confidence_threshold=conf_threshold_vehicles
     )
 
-    # Procesar el video
+    # Process the video
     output_video_path, txt_yolo, json_yolo = detector.process_video_gradio(
         video_filename, 'ffmpeg'
     )
 
-    # Verificar que el video fue procesado correctamente
+    # Check if the video was processed successfully
     if not os.path.exists(output_video_path):
         return JSONResponse(content={"error": "Error processing video"}, status_code=500)
 
-    # Crear un archivo ZIP en memoria
+    # Create a ZIP file in memory to bundle the processed video and metadata
     zip_buffer = BytesIO()
     with zipfile.ZipFile(zip_buffer, "a", zipfile.ZIP_DEFLATED, False) as zip_file:
-        # Agregar el video procesado
+        # Add the processed video
         zip_file.write(output_video_path, "processed_video.mp4")
-        # Agregar los metadatos
+        # Add the metadata
         zip_file.writestr("txt_yolo.txt", txt_yolo)
         zip_file.writestr("json_yolo.json", json_yolo)
 
     zip_buffer.seek(0)
 
-    # Devolver el archivo ZIP como respuesta
+    # Return the ZIP file as a response
     return StreamingResponse(
         zip_buffer,
         media_type="application/x-zip-compressed",

@@ -11,10 +11,10 @@ def stream_object_detection(video, conf_threshold_parkings, conf_threshold_vehic
     if video is None:
         return None, "No video provided", None
 
-    # URL del servicio de modelos
+    # Service model Url
     url = "http://model_service:8000/process"
 
-    # Leer el archivo de video y enviarlo al servidor
+    # Read the video file and send it to the server
     with open(video, "rb") as f:
         files = {'video': (os.path.basename(video), f, 'video/mp4')}
         data = {
@@ -24,20 +24,20 @@ def stream_object_detection(video, conf_threshold_parkings, conf_threshold_vehic
         response = requests.post(url, files=files, data=data, stream=True)
 
     if response.status_code == 200:
-        # Leer el contenido del archivo ZIP en memoria
+        # Read ZIP file contents into memory
         zip_content = BytesIO(response.content)
         with zipfile.ZipFile(zip_content) as zip_file:
-            # Extraer el video procesado
+            # Extract the processed video
             with zip_file.open("processed_video.mp4") as video_file:
                 with NamedTemporaryFile(delete=False, suffix=".mp4") as temp_video:
                     shutil.copyfileobj(video_file, temp_video)
                     processed_video_path = temp_video.name
 
-            # Extraer txt_yolo
+            # Extract txt_yolo
             with zip_file.open("txt_yolo.txt") as txt_file:
                 txt_yolo = txt_file.read().decode('utf-8')
 
-            # Extraer json_yolo
+            # Extract json_yolo
             with zip_file.open("json_yolo.json") as json_file:
                 json_yolo = json.load(json_file)
 
