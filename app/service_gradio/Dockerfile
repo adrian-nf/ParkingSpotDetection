@@ -1,20 +1,20 @@
-# Usar una imagen base de Python
+# Use a base image of Python
 FROM python:3.11
 
-# Establecer el directorio de trabajo
+# Set the working directory
 WORKDIR /app
 
-# Copiar los archivos de requerimientos
+# Copy the requirements file
 COPY requirements.txt .
 
-# Instalar las dependencias de Python
+# Install the Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar el código fuente
+# Copy the source code
 COPY app.py .
 
-# Exponer el puerto en el que correrá Gradio
+# Expose the port that Gradio will run on
 EXPOSE 7860
 
-# Comando para ejecutar la aplicación Gradio
+# Command to run the Gradio application
 CMD ["python", "app.py"]

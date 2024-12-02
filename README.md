@@ -23,6 +23,19 @@ The datasets used in this project are publicly available. The process of acquiri
 - [training_model_world_yolo](notebooks/training_model_world_yolo.ipynb)
 - [training_model_dt](notebooks/training_model_dt.ipynb)
 
+
+## Build and Start the Application
+
+To build and start the services (model service and Gradio service), follow these steps:
+
+1. **Build and start the containers**:
+
+   In the app directory of the project, run the following command:
+
+   ```bash
+   docker-compose up --build
+   ```
+
 ## Results
 
 ### Interface
